@@ -1,0 +1,12 @@
+ferienpark-vergleich.zip
+          ↓
+      entpacken
+          ↓
+app/
+components/
+lib/
+public/
+.github/
+package.json
+next.config.ts
+...
