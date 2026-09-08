@@ -18,24 +18,48 @@ jobs:
 
       - name: Unpack project
         run: |
-          mkdir -p extracted
+          rm -rf extracted
+          mkdir extracted
+
           unzip -q ferienpark-vergleich.zip -d extracted
 
           if [ -d "extracted/ferienpark-vergleich" ]; then
-            cp -R extracted/ferienpark-vergleich/. .
+            cp -R extracted/ferienpark-vergleich/app .
+            cp -R extracted/ferienpark-vergleich/components .
+            cp -R extracted/ferienpark-vergleich/lib .
+            cp -R extracted/ferienpark-vergleich/public .
+            cp -R extracted/ferienpark-vergleich/package.json .
+            cp -R extracted/ferienpark-vergleich/next.config.ts .
+            cp -R extracted/ferienpark-vergleich/postcss.config.mjs .
+            cp -R extracted/ferienpark-vergleich/tsconfig.json .
+            cp -R extracted/ferienpark-vergleich/README.md .
+            cp -R extracted/ferienpark-vergleich/.gitignore .
           else
-            cp -R extracted/. .
+            cp -R extracted/app .
+            cp -R extracted/components .
+            cp -R extracted/lib .
+            cp -R extracted/public .
+            cp -R extracted/package.json .
+            cp -R extracted/next.config.ts .
+            cp -R extracted/postcss.config.mjs .
+            cp -R extracted/tsconfig.json .
+            cp -R extracted/README.md .
+            cp -R extracted/.gitignore .
           fi
 
           rm -rf extracted
           rm -f ferienpark-vergleich.zip
-          rm -f .github/workflows/unpack.yml
 
       - name: Commit project
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add -A
-          git commit -m "Add FerienparkFinder project"
-          git push
+          git add app components lib public package.json next.config.ts postcss.config.mjs tsconfig.json README.md .gitignore
+          
+          if git diff --cached --quiet; then
+            echo "Keine Änderungen vorhanden."
+          else
+            git commit -m "Add FerienparkFinder project"
+            git push
+          fi
